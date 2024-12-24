@@ -10,17 +10,3 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ./data:/var/lib/postgresql/data-db
-  
-  pg_admin:
-    image: dpage/pgadmin4
-    container_name: pg_admin
-    ports:
-      - "5050:80"
-    depends_on:
-      - serviceName: postgres_db
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - ./pgadmin:/var/lib/pgadmin
