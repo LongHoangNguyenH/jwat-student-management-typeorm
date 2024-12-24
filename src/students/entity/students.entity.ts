@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ClassEntity } from 'src/classes/entity/class.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('students')
 export class StudentEntity {
@@ -9,5 +10,6 @@ export class StudentEntity {
   studentName: string;
 
   @Column()
-  className: string;
+  @ManyToOne(() => ClassEntity, classEntity => classEntity.id)
+  classId: string;
 }
