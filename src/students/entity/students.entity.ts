@@ -1,5 +1,5 @@
 import { ClassEntity } from 'src/classes/entity/class.entity';
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 
 @Entity('students')
 export class StudentEntity {
@@ -11,6 +11,7 @@ export class StudentEntity {
 
   @Column({ nullable: false })
   @ManyToOne(() => ClassEntity, classEntity => classEntity.id)
+  @JoinColumn({ name: 'classId' })
   classId: string;
 
   constructor(id: string, studentName: string, classId: string) {
