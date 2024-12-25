@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, UseFilters } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, UseFilters } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { CreateStudentDto } from './dto/create-student.dto';
+import { UpdateStudentDto } from './dto/update-student.dto';
 
 @Controller('students')
 @UseFilters(HttpExceptionFilter)
@@ -21,5 +22,15 @@ export class StudentsController {
   @Get('/all')
   findAll() {
     return this.studentsService.findAll();
+  }
+
+  @Put('/update')
+  update(@Body() updateStudentDto: UpdateStudentDto) {
+    return this.studentsService.update(updateStudentDto);
+  }
+
+  @Delete('/delete')
+  remove(@Body('id') id: string) {
+    return this.studentsService.remove(id);
   }
 }
