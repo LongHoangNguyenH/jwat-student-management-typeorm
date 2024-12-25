@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateClassDto } from './dto/create-class.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ClassEntity } from './entity/class.entity';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 import { UpdateClassDto } from './dto/update-class.dto';
+import { CLASS_EXISTS } from 'src/common/errors/constants.errors';
 @Injectable()
 export class ClassesService {
   constructor(
@@ -13,6 +14,10 @@ export class ClassesService {
   ) {}
 
   create(createClassDto: CreateClassDto) {
+    const existClass = this.classesRepository.findOne({ where: { className: createClassDto.className.toLowerCase() } });
+    if (existClass) {
+      throw new HttpException(CLASS_EXISTS, HttpStatus.BAD_REQUEST);
+    }
     const newClass = new ClassEntity(uuidv4(), createClassDto.className.toLowerCase());
     return this.classesRepository.save(newClass);
   }

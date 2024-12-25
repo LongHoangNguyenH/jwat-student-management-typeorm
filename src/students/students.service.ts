@@ -47,11 +47,7 @@ export class StudentsService {
   }
 
   async update(updateStudentDto: UpdateStudentDto) {
-    const currentStudent = await this.studentRepository.findOne({
-      where: { id: updateStudentDto.id },
-    });
-    updateStudentDto.studentName = updateStudentDto.studentName.toLowerCase();
-    return this.studentRepository.update(currentStudent, updateStudentDto);
+    return this.studentRepository.update(updateStudentDto['currentStudent'], updateStudentDto['value']);
   }
 
   async remove(id: string) {

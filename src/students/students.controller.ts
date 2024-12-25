@@ -3,6 +3,7 @@ import { StudentsService } from './students.service';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { ProcessUpdateStudentPipe } from 'src/common/pipes/process-update-student/process-update-student.pipe';
 
 @Controller('students')
 @UseFilters(HttpExceptionFilter)
@@ -35,7 +36,7 @@ export class StudentsController {
   }
 
   @Put('/update')
-  update(@Body() updateStudentDto: UpdateStudentDto) {
+  update(@Body(ProcessUpdateStudentPipe) updateStudentDto: UpdateStudentDto) {
     return this.studentsService.update(updateStudentDto);
   }
 
