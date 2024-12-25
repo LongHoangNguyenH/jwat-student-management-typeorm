@@ -5,7 +5,7 @@ export class ClassEntity {
   @PrimaryColumn()
   id: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: false })
   className: string;
 
   constructor(id: string, className: string) {

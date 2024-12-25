@@ -9,7 +9,7 @@ export class StudentEntity {
   @Column({ unique: true })
   studentName: string;
 
-  @Column()
+  @Column({ nullable: false })
   @ManyToOne(() => ClassEntity, classEntity => classEntity.id)
   classId: string;
 }
