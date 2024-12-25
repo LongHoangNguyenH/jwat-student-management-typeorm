@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ClassEntity } from './entity/class.entity';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+import { UpdateClassDto } from './dto/update-class.dto';
 @Injectable()
 export class ClassesService {
   constructor(
@@ -24,5 +25,19 @@ export class ClassesService {
 
   findAll() {
     return this.classesRepository.find();
+  }
+
+  async update(updateInfor: UpdateClassDto) {
+    const updateClass = await this.classesRepository.findOne({
+      where: { id: updateInfor.id },
+    });
+    return this.classesRepository.update(updateClass, updateInfor);
+  }
+
+  async remove(id: string) {
+    const deleteClass = await this.classesRepository.findOne({
+      where: { id: id },
+    });
+    return this.classesRepository.remove(deleteClass);
   }
 }
