@@ -12,4 +12,10 @@ export class StudentEntity {
   @Column({ nullable: false })
   @ManyToOne(() => ClassEntity, classEntity => classEntity.id)
   classId: string;
+
+  constructor(id: string, studentName: string, classId: string) {
+    this.id = id;
+    this.studentName = studentName;
+    this.classId = classId;
+  }
 }

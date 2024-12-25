@@ -14,11 +14,10 @@ export class CreateStudentDto {
 
   @IsNotEmpty({ message: CLASS_NAME_REQUIRED })
   @IsString({ message: CLASS_NAME_UNVALID })
-  @MaxLength(9)
-  public className: string;
+  public classId: string;
 
-  constructor(studentName: string, className: string) {
+  constructor(studentName: string, classId: string) {
     this.studentName = studentName;
-    this.className = className;
+    this.classId = classId;
   }
 }
