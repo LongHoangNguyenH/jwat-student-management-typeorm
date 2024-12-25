@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Put, UseFilters } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Query, UseFilters } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { CreateStudentDto } from './dto/create-student.dto';
@@ -22,6 +22,16 @@ export class StudentsController {
   @Get('/all')
   findAll() {
     return this.studentsService.findAll();
+  }
+
+  @Get('/byClassname')
+  findByClassname(@Query('searchClassName') className: string) {
+    return this.studentsService.findByClassname(className);
+  }
+
+  @Get('/byStname')
+  findByStudentname(@Query('searchStname') studentName: string) {
+    return this.studentsService.findByStudentname(studentName);
   }
 
   @Put('/update')

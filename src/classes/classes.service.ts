@@ -13,7 +13,7 @@ export class ClassesService {
   ) {}
 
   create(createClassDto: CreateClassDto) {
-    const newClass = new ClassEntity(uuidv4(), createClassDto.className);
+    const newClass = new ClassEntity(uuidv4(), createClassDto.className.toLowerCase());
     return this.classesRepository.save(newClass);
   }
 
@@ -31,6 +31,7 @@ export class ClassesService {
     const updateClass = await this.classesRepository.findOne({
       where: { id: updateInfor.id },
     });
+    updateInfor.className = updateInfor.className.toLowerCase();
     return this.classesRepository.update(updateClass, updateInfor);
   }
 

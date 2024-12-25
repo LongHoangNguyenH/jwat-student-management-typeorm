@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StudentEntity } from './entity/students.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { v4 as uuid } from 'uuid';
 import { UpdateStudentDto } from './dto/update-student.dto';
@@ -11,6 +11,7 @@ export class StudentsService {
   constructor(
     @InjectRepository(StudentEntity)
     private readonly studentRepository: Repository<StudentEntity>,
+    private readonly datasource: DataSource,
   ) {}
 
   create(createStudentDto: CreateStudentDto) {
@@ -26,6 +27,23 @@ export class StudentsService {
 
   findAll() {
     return this.studentRepository.find();
+  }
+
+  async findByClassname(className: string) {
+    return await this.datasource
+      .getRepository(StudentEntity)
+      .createQueryBuilder('students')
+      .innerJoin('students.classId', 'student_with_classname')
+      .where('student_with_classname.className = :className', { className: className })
+      .getMany();
+  }
+
+  async findByStudentname(studentName: string) {
+    return await this.datasource
+      .getRepository(StudentEntity)
+      .createQueryBuilder('students')
+      .where('students.studentName LIKE :studentName', { studentName: `%${studentName}%` })
+      .getMany();
   }
 
   async update(updateStudentDto: UpdateStudentDto) {
