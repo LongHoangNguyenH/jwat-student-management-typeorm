@@ -3,6 +3,8 @@ const STUDENT_EXISTS = 'Student already exists';
 const STUDENT_FIELD_REQUIRED = 'Student name and class are required';
 const STUDENT_NAME_REQUIRED = 'Student name is required';
 const STUDENT_NAME_INVALID = 'Student name must be string';
+const STUDENT_ID_REQUIRED = 'Student ID is required';
+const STUDENT_ID_INVALID = 'Student ID must be string';
 
 const CLASS_NOT_FOUND = 'Class not found';
 const CLASS_EXISTS = 'Class already exists';
@@ -30,4 +32,6 @@ export {
   CLASS_ID_UNVALID,
   STUDENT_NAME_INVALID,
   CLASS_NAME_MAX_LENGTH,
+  STUDENT_ID_REQUIRED,
+  STUDENT_ID_INVALID,
 };

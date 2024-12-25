@@ -5,9 +5,12 @@ import { StudentsModule } from './students/students.module';
 import { ClassesModule } from './classes/classes.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from './typeorm/typeorm.module';
+import { DataSource } from 'typeorm';
 @Module({
   imports: [TypeOrmModule, ConfigModule.forRoot(), StudentsModule, ClassesModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}
