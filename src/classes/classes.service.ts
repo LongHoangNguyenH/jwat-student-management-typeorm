@@ -15,8 +15,10 @@ export class ClassesService {
     private readonly datasource: DataSource,
   ) {}
 
-  create(createClassDto: CreateClassDto) {
-    const existClass = this.classesRepository.findOne({ where: { className: createClassDto.className.toLowerCase() } });
+  async create(createClassDto: CreateClassDto) {
+    const existClass = await this.classesRepository.findOne({
+      where: { className: createClassDto.className.toLowerCase() },
+    });
     if (existClass) {
       throw new HttpException(CLASS_EXISTS, HttpStatus.BAD_REQUEST);
     }
@@ -24,14 +26,14 @@ export class ClassesService {
     return this.classesRepository.save(newClass);
   }
 
-  findOne(id: string) {
-    return this.classesRepository.find({
+  async findOne(id: string) {
+    return await this.classesRepository.find({
       where: { id },
     });
   }
 
-  findAll() {
-    return this.classesRepository.find();
+  async findAll() {
+    return await this.classesRepository.find();
   }
 
   async update(updateClassDto: UpdateClassDto) {

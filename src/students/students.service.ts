@@ -5,7 +5,7 @@ import { DataSource, Repository } from 'typeorm';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { v4 as uuid } from 'uuid';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { STUDENT_NOT_FOUND } from 'src/common/errors/constants.errors';
+import { STUDENT_EXISTS, STUDENT_NOT_FOUND } from 'src/common/errors/constants.errors';
 
 @Injectable()
 export class StudentsService {
@@ -15,19 +15,25 @@ export class StudentsService {
     private readonly datasource: DataSource,
   ) {}
 
-  create(createStudentDto: CreateStudentDto) {
+  async create(createStudentDto: CreateStudentDto) {
+    const existStudent = await this.studentRepository.findOne({
+      where: { studentName: createStudentDto.studentName.toLowerCase() },
+    });
+    if (existStudent) {
+      throw new HttpException(STUDENT_EXISTS, HttpStatus.BAD_REQUEST);
+    }
     const newStudent = new StudentEntity(uuid(), createStudentDto.studentName.toLowerCase(), createStudentDto.classId);
     return this.studentRepository.save(newStudent);
   }
 
-  findOne(id: string) {
-    return this.studentRepository.findOne({
+  async findOne(id: string) {
+    return await this.studentRepository.findOne({
       where: { id },
     });
   }
 
-  findAll() {
-    return this.studentRepository.find();
+  async findAll() {
+    return await this.studentRepository.find();
   }
 
   async findByClassname(className: string) {
