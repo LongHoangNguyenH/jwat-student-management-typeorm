@@ -15,7 +15,7 @@ export class StudentsService {
   ) {}
 
   create(createStudentDto: CreateStudentDto) {
-    const newStudent = new StudentEntity(uuid(), createStudentDto.studentName, createStudentDto.classId);
+    const newStudent = new StudentEntity(uuid(), createStudentDto.studentName.toLowerCase(), createStudentDto.classId);
     return this.studentRepository.save(newStudent);
   }
 
@@ -42,7 +42,7 @@ export class StudentsService {
     return await this.datasource
       .getRepository(StudentEntity)
       .createQueryBuilder('students')
-      .where('students.studentName LIKE :studentName', { studentName: `%${studentName}%` })
+      .where('students.studentName LIKE :studentName', { studentName: `%${studentName.toLowerCase()}%` })
       .getMany();
   }
 
@@ -50,7 +50,7 @@ export class StudentsService {
     const currentStudent = await this.studentRepository.findOne({
       where: { id: updateStudentDto.id },
     });
-    console.log(currentStudent);
+    updateStudentDto.studentName = updateStudentDto.studentName.toLowerCase();
     return this.studentRepository.update(currentStudent, updateStudentDto);
   }
 
