@@ -5,7 +5,7 @@ export class UpdateClassDto {
   @IsString({ message: CLASS_NAME_UNVALID })
   @IsOptional()
   @MaxLength(9)
-  className: string;
+  className?: string;
 
   @IsString({ message: CLASS_NAME_UNVALID })
   @IsNotEmpty({ message: CLASS_ID_REQUIRED })

@@ -54,7 +54,14 @@ export class StudentsService {
   }
 
   async update(updateStudentDto: UpdateStudentDto) {
-    return this.studentRepository.update(updateStudentDto['currentStudent'], updateStudentDto['value']);
+    const currentStudent = await this.studentRepository.findOne({ where: { id: updateStudentDto.id } });
+    if (!currentStudent) throw new HttpException(STUDENT_NOT_FOUND, HttpStatus.NOT_FOUND);
+    if (updateStudentDto?.classId) {
+      updateStudentDto.classId = currentStudent.classId;
+    } else if (updateStudentDto?.studentName) {
+      updateStudentDto.studentName = updateStudentDto.studentName;
+    }
+    return this.studentRepository.update(updateStudentDto, updateStudentDto);
   }
 
   async remove(id: string) {

@@ -13,10 +13,11 @@ export class AuthRoleGuard implements CanActivate {
       return false;
     }
     const request = context.switchToHttp().getRequest<Request>();
-    const token = request.headers.authorization;
+    const authHeader = request.headers.authorization;
+    const token = authHeader.split(' ')[1];
 
     for (let i = 0; i < roles.length; i++) {
-      if (token.includes(roles[i])) {
+      if (token == roles[i]) {
         return true;
       }
     }
