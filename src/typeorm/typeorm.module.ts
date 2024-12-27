@@ -20,7 +20,6 @@ import { ClassEntity } from 'src/classes/entity/class.entity';
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
             entities: [StudentEntity, ClassEntity],
-            synchronize: true,
           });
           await dataSource.initialize();
           console.log('Database connected successfully');
