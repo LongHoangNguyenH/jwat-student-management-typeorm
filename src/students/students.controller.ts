@@ -1,9 +1,8 @@
-import { Body, Controller, Delete, Get, Post, Put, Query, UseFilters } from '@nestjs/common';
+import { Body, Controller, Delete, Get, ParseUUIDPipe, Post, Put, Query, UseFilters } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { ProcessUpdateStudentPipe } from 'src/common/pipes/process-update-student/process-update-student.pipe';
 import { Roles } from 'src/common/decorators/roles/roles.decorator';
 import { ADMIN, PRINCIPAL, TEACHER } from 'src/common/guards/role';
 
@@ -14,7 +13,7 @@ export class StudentsController {
 
   @Post()
   @Roles(ADMIN, TEACHER)
-  create(@Body() createStudentDto: CreateStudentDto) {
+  create(@Body(ParseUUIDPipe) createStudentDto: CreateStudentDto) {
     return this.studentsService.create(createStudentDto);
   }
 
@@ -44,7 +43,7 @@ export class StudentsController {
 
   @Put('/update')
   @Roles(ADMIN, TEACHER)
-  update(@Body(ProcessUpdateStudentPipe) updateStudentDto: UpdateStudentDto) {
+  update(@Body() updateStudentDto: UpdateStudentDto) {
     return this.studentsService.update(updateStudentDto);
   }
 

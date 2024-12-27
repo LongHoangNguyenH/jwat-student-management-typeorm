@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Put, UseFilters } from '@nestjs/common';
+import { Body, Controller, Delete, Get, ParseUUIDPipe, Post, Put, UseFilters } from '@nestjs/common';
 import { ClassesService } from './classes.service';
 import { CreateClassDto } from './dto/create-class.dto';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
@@ -13,7 +13,7 @@ export class ClassesController {
 
   @Post()
   @Roles(ADMIN, PRINCIPAL)
-  create(@Body() createClassDto: CreateClassDto) {
+  create(@Body(ParseUUIDPipe) createClassDto: CreateClassDto) {
     return this.classesService.create(createClassDto);
   }
 
